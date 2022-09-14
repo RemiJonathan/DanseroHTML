@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/static/css/main.65098a70.css",
+    "main.js": "/static/js/main.546ec464.js",
+    "static/media/europeana.jpg": "/static/media/europeana.4b50a1db92653e759cf8.jpg",
+    "static/media/farrel.jpg": "/static/media/farrel.cd65a5ff67b026106347.jpg",
+    "static/media/enzo.jpg": "/static/media/enzo.eb2032b297be155e0577.jpg",
+    "static/media/timon-klauser.jpg": "/static/media/timon-klauser.a9fa6757dde202823c22.jpg",
+    "static/media/robert-keane.jpg": "/static/media/robert-keane.f2937a1d4e37fbb22cd6.jpg",
+    "static/media/steve-johnson.jpg": "/static/media/steve-johnson.f58c95f23a40f1959f95.jpg",
+    "static/media/steve-johnson-2.jpg": "/static/media/steve-johnson-2.e86c62fadf6fb9960078.jpg",
+    "static/media/adrianna.jpg": "/static/media/adrianna.cbc60da391d6cb19b4d9.jpg",
+    "static/media/luc-dansereau.jpg": "/static/media/luc-dansereau.bb7d732cf62fa1c7fdcb.jpg",
+    "index.html": "/index.html",
+    "main.65098a70.css.map": "/static/css/main.65098a70.css.map",
+    "main.546ec464.js.map": "/static/js/main.546ec464.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.65098a70.css",
+    "static/js/main.546ec464.js"
+  ]
+}
