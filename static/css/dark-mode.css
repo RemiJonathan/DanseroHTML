@@ -1,0 +1,8 @@
+.dark-mode {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+.dark-mode-logo {
+    filter: invert(100%);
+}
