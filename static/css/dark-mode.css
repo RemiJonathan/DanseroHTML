@@ -1,8 +1,21 @@
 .dark-mode {
     background-color: #000000;
     color: #ffffff;
+    transition-duration: 2s;
+}
+
+.light-mode {
+    background-color: #ffffff;
+    color: #000000;
+    transition-duration: 2s;
 }
 
 .dark-mode-logo {
     filter: invert(100%);
+    transition-duration: 2s;
+}
+
+.light-mode-logo {
+    filter: invert(0%);
+    transition-duration: 2s;
 }

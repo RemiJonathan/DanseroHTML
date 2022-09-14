@@ -40,7 +40,7 @@ window.onload = function () {
 function addLogo() {
     let logo = document.createElement("div");
     logo.class = "logo";
-    logo.innerHTML = "<img src='static/media/logo.svg' id='logo' alt='Luc'>";
+    logo.innerHTML = "<img src='static/media/logo.svg' id='logo' alt='Luc' class='light-mode-logo'>";
     logo.style.position = "fixed";
     logo.style.bottom = "0";
     logo.style.right = "0";
@@ -75,7 +75,7 @@ function navHTML() {
         "    <input type=\"radio\" name=\"arrow--up\" id=\"degree--up-2\" />\n" +
         "    <div class=\"menu__listings\">\n" +
         "      <ul class=\"circle\">\n" +
-        navItem("user", "#") +
+        navItem("user", "javascript:loadIntro(\"Biographie\", lorem(), \"static/media/luc-dansereau.bb7d732cf62fa1c7fdcb.jpg\")") +
         navItem("moon-o", "javascript:toggleDarkMode()") +
         navItem("cog", "#") +
         navItem("", "#") +
@@ -140,4 +140,6 @@ function toggleDarkMode() {
     let logo = document.getElementById("logo");
     body.classList.toggle("dark-mode");
     logo.classList.toggle("dark-mode-logo");
+    body.classList.toggle("light-mode");
+    logo.classList.toggle("light-mode-logo");
 }
