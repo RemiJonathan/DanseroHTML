@@ -21,6 +21,10 @@ p {
     font-weight: 300
 }
 
+.justify {
+    text-align: justify;
+}
+
 .menu-toggler {
     bottom: 0;
     cursor: pointer;
@@ -246,6 +250,12 @@ img.gallery {
     height: 100%;
     object-fit: cover;
     width: auto
+}
+
+img.gallery {
+    width: auto;
+    height: 100%;
+    object-fit: cover;
 }
 
 /*# sourceMappingURL=main.65098a70.css.map*/

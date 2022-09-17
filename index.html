@@ -37,7 +37,7 @@
         Bienvenue dans l'imaginaire de Dansero
     </div>
     <div class="container">
-        <div id="content" style="opacity: 0;">
+        <div id="content" style="opacity: 0; text-align: justify">
 
         </div>
     </div>
@@ -55,10 +55,11 @@
     setTimeout(function () {
         //fade in .content
         fadeInContent();
-        loadIntro("Biographie", lorem(), "static/media/luc-dansereau.bb7d732cf62fa1c7fdcb.jpg");
+        loadIntro("Biographie", biographyHTML(), "static/media/luc-dansereau.bb7d732cf62fa1c7fdcb.jpg");
     }, 2000);
 
 
 </script>
+<script src="static/js/image_processing.js"></script>
 </body>
 </html>
