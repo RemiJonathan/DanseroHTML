@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Le petit Margay",
+    "year": "2022 ",
+    "description": "Toujours \u00e0 l\u2019aff\u00fbt de toutes \u00e9ventualit\u00e9s ",
+    "medium": "Peinture \u00e0 l\u2019acrylique sur toile ",
+    "url": "..\/static\/media\/uploads\/2022-11-16-18-58-52.jpeg",
+    "depiction": "? ",
+    "price": "300",
+    "size": "18x20\"",
+    "status": "available",
+    "order": 1
+  },
+  {
+    "name": "Artefact ",
+    "year": "2022",
+    "description": "Dans les profondeurs de la for\u00eat, il y a une vieille voiture abandonn\u00e9e,\r\nEnvelopp\u00e9e dans la brume et la mousse, elle repose depuis des ann\u00e9es.\r\nSa carrosserie rouill\u00e9e et caboss\u00e9e parle de jours meilleurs,\r\nQuand elle roulait sur les routes avec fiert\u00e9 et gr\u00e2ce.\r\n\r\nMais maintenant, elle n'est plus qu'un souvenir,\r\nUn t\u00e9moin du temps qui passe et des choses qui changent.\r\nElle est devenue une partie de la for\u00eat,\r\nUn \u00e9l\u00e9ment naturel dans ce d\u00e9cor sauvage.\r\n\r\nOn peut imaginer ses anciens propri\u00e9taires,\r\nConduisant joyeusement \u00e0 travers ces bois,\r\nInconscients de la fin triste qui les attendait.\r\nMaintenant, leur voiture est seule,\r\nOubli\u00e9e de tous, \u00e0 l'exception de la nature qui l'entoure.\r\n\r\nLa voiture abandonn\u00e9e est un tableau vivant,\r\nUn m\u00e9lange de pass\u00e9 et de pr\u00e9sent,\r\nUn aper\u00e7u de la vie qui continue de changer.\r\nElle est un t\u00e9moin muet de notre passage ici-bas,\r\nEt une preuve que rien ne reste \u00e9ternellement.",
+    "medium": "Peinture acrylique sur toile ",
+    "url": "..\/static\/media\/uploads\/2022-12-01-17-31-00.jpeg",
+    "depiction": "??",
+    "price": "5000",
+    "size": "16x20",
+    "status": "available",
+    "order": 2
+  },
+  {
+    "name": "Billie Eilish ",
+    "year": "2022",
+    "description": "$",
+    "medium": "Acrylique sur toile ",
+    "url": "..\/static\/media\/uploads\/2022-12-09-13-54-40.jpeg",
+    "depiction": "Look at me ",
+    "price": "70000",
+    "size": "11x14 \" ",
+    "status": "available",
+    "order": 3
+  }
+]

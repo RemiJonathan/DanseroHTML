@@ -247,15 +247,14 @@ div.nav-holder div.row {
 }
 
 img.gallery {
-    height: 100%;
-    object-fit: cover;
-    width: auto
+    height: 100vh;
+    width: auto;
+    object-fit: contain;
 }
 
-img.gallery {
-    width: auto;
-    height: 100%;
-    object-fit: cover;
+#logo {
+    pointer-events: none;
 }
+
 
 /*# sourceMappingURL=main.65098a70.css.map*/

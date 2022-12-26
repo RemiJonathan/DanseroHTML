@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport">
     <link href="%PUBLIC_URL%/favicon.ico" rel="icon"/>
     <link href="https://fonts.googleapis.com" rel="preconnect">
     <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
@@ -38,7 +39,6 @@
     </div>
     <div class="container">
         <div id="content" style="opacity: 0; text-align: justify">
-
         </div>
     </div>
 </div>
@@ -55,11 +55,54 @@
     setTimeout(function () {
         //fade in .content
         fadeInContent();
-        loadIntro("Biographie", biographyHTML(), "static/media/luc-dansereau.bb7d732cf62fa1c7fdcb.jpg");
+        loadIntro("Biographie", biographyHTML(), "static/media/luc.jpg");
     }, 2000);
 
 
 </script>
 <script src="static/js/image_processing.js"></script>
+<script>
+    var form = document.getElementById("my-form");
+
+    async function handleSubmit(event) {
+        event.preventDefault();
+        var status = document.getElementById("formspree-response");
+        var data = new FormData(event.target);
+        fetch(event.target.action, {
+            method: form.method,
+            body: data,
+            headers: {
+                'Accept': 'application/json'
+            }
+        }).then(response => {
+            if (response.ok) {
+                status.innerHTML = "Thanks for your submission!";
+                form.reset()
+            } else {
+                response.json().then(data => {
+                    if (Object.hasOwn(data, 'errors')) {
+                        status.innerHTML = data["errors"].map(error => error["message"]).join(", ")
+                    } else {
+                        status.innerHTML = "Oops! There was a problem submitting your form"
+                    }
+                })
+            }
+        }).catch(error => {
+            status.innerHTML = "Oops! There was a problem submitting your form"
+        });
+    }
+
+    form.addEventListener("submit", handleSubmit)
+</script>
+<script>
+    document.body.addEventListener('click', function (event) {
+        // Check whether the target element is within the menu
+        if (!event.target.closest('.menu')) {
+            // If the target element is not within the menu, toggle the menu's visibility
+            document.querySelector('#menu__active').checked = false;
+        }
+    });
+
+</script>
 </body>
 </html>

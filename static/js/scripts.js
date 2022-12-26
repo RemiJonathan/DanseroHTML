@@ -1,40 +1,178 @@
 function loadIntro(title, text, image) {
-    let intro = "<div class=\"container\"><div class=\"row\"><div class=\"col-md-12\"><h1 class=\"text-center display-2\">" +
-        title +
-        "</h1></div></div><div class=\"row\"><div class=\"col-md-5 align-left\">" +
-        "<img src=\"" +
-        image +
-        "\" class=\"img-fluid\" alt=\"Luc\" id='intro-image'></div><div class=\"col-md-1\"></div><div class=\"col-md-6 align-right align-self-start\"><p style='text-align: justify'>" +
-        text +
-        "</p></div></div></div>";
-    //add intro to content
+    // Create the intro HTML string
+    let intro = `
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="text-center display-4">${title}</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-5 align-left">
+          <img src="${image}" class="img-fluid" alt="Luc" id="intro-image">
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-6 align-right align-self-start">
+          <p style="text-align: justify">${text}</p>
+        </div>
+      </div>
+    </div>
+  `;
+    // Call the addContent function and pass in the intro HTML string
     addContent(intro);
 }
 
-//load gallery
+
 function loadGallery(images) {
+    // Log the images array to the console for debugging purposes
     console.log(images);
-    //for each image in images array, add a div with the image
+
     let imageDiv = "";
-    for (const image in images) {
-        console.log(images[image]);
-        imageDiv += "<div class=\"col-md-4\"><img src=\"" + images[image] + "\" class=\"img-fluid py-md-3 gallery\" alt=\"Luc\"></div>";
+    // Loop through each image in the images array
+    for (let i = 0; i < images.length; i++) {
+        // Log the current image to the console for debugging purposes
+        console.log(images[i]);
+        // Add an image element to the imageDiv string with the current image's URL and alt text
+        // Also add an onclick event that calls the openModal function and passes in the current image index
+        imageDiv += `
+      <div class="col-md-4">
+        <img src="${images[i].url}" class="gallery img-fluid py-md-3" alt="${images[i].depiction}" onclick="openModal(${i})">
+      </div>
+    `;
     }
-    let gallery = "<div class=\"container\"><div class=\"row\"><div class=\"col-md-12\"><h1 class=\"text-center display-2\">Galerie</h1></div></div><div class=\"row\"><div class=\"col-md-12\"><div class=\"row\">" + imageDiv + "</div></div></div>";
+
+    // Create the gallery HTML string
+    let gallery = `
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="text-center display-4">Galerie</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">${imageDiv}</div>
+        </div>
+      </div>
+    </div>
+  `;
+    // Call the addContent function and pass in the gallery HTML string
     addContent(gallery);
 }
 
-//load demarche
+
+function loadContact() {
+    // Create the contact HTML string
+    let contact = `
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="text-center display-4">Contact</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-12">
+              ${contactHTML()}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+    // Call the addContent function and pass in the contact HTML string
+    addContent(contact);
+}
+
+
+function openModal(index) {
+    // Get a reference to the content element
+    let content = document.getElementById("content");
+    // Get the images array
+    let images = getImages();
+
+    // Create the modal HTML string
+    let modal = `
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="text-center display-4">${images[index].name}</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-5 align-left">
+          <a href="${images[index].url}" target="_blank">
+            <img src="${images[index].url}" class="img-fluid" alt="Luc" id="intro-image">
+          </a>
+          <div class="container-fluid">
+            <div class="row justify-content-around">
+              <div class="col-auto text-center">
+                ${parseFloat(images[index].price).toLocaleString('en-CA', {
+        style: 'currency',
+        currency: 'CAD',
+        minimumFractionDigits: 2
+    })}
+              </div>
+              <div class="col-auto text-center">${images[index].size}</div>
+              <div class="col-auto text-center">${convertStatus(images[index].status)}</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 align-right align-self-start">
+          <p style="text-align: justify">${images[index].description}</p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-12">
+            <button type="button" class="btn btn-light" onclick="loadGallery(getImages())">Retour</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+    // Set the content element's innerHTML to the modal HTML string
+    content.innerHTML = modal;
+    // Call the replaceNewLine function
+    replaceNewLine();
+}
+
+
 function loadDemarche() {
-    let demarche = "<div class=\"container\"><div class=\"row\"><div class=\"col-md-12\"><h1 class=\"text-center display-2\">D&eacute;marche</h1></div></div><div class=\"row\"><div class=\"col-md-12\"><div class=\"row\"><div class=\"col-md-12\">" + demarcheHTML() + "</div></div></div>";
+    // Create the demarche HTML string
+    let demarche = `
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="text-center display-4">D&eacute;marche</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-12">
+              ${demarcheHTML()}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+    // Call the addContent function and pass in the demarche HTML string
     addContent(demarche);
 }
 
-//function to add some html to content
+
 function addContent(html) {
+    // Get a reference to the content element
     let content = document.getElementById("content");
+    // Set the content element's innerHTML to the HTML string passed in as an argument
     content.innerHTML = html;
 }
+
 
 //center text horizontally and vertically
 function centerText(text) {
@@ -99,7 +237,7 @@ function navHTML() {
         navItem("", "#") +
         navItem("", "#") +
         navItem("", "#") +
-        navItem("envelope", "#") +
+        navItem("envelope", "javascript:loadContact()") +
         navItem("file", "javascript:loadDemarche()") +
         navItem("picture-o", "javascript:loadGallery(getImages())") +
         "      </ul>\n" +
@@ -198,4 +336,74 @@ function demarcheHTML() {
         "<p>A titre d&rsquo;exemple, je produis des paysages &eacute;cologiques suivant le th&egrave;me de la pollution des oc&eacute;ans par les mati&egrave;res plastiques tel que dans ma peinture &laquo;&nbsp;<em>le 7<sup>e</sup> continent&nbsp;&raquo; </em>(2016).&nbsp; Voil&agrave; une probl&eacute;matique environnementale qui me touche fortement car elle affecte la flore et la faune oc&eacute;aniques.&nbsp; D&rsquo;autres sujets me passionnent tels que l&rsquo;erreur humaine, les maux de la soci&eacute;t&eacute; occidentale et les cons&eacute;quences de son d&eacute;veloppement au d&eacute;triment du reste du monde.&nbsp; J&rsquo;ai exprim&eacute; ces pr&eacute;occupations dans mes peintures dont &laquo;&nbsp;<em>Times Square Mcdonald&rsquo;s\"</em> (2016) et dans la caricature de Donald Trump &laquo;&nbsp;<em>Trash Trump&nbsp;&raquo; </em>(2016).&nbsp; Ces 2 peintures sont des exemples de ce que je veux exprimer par mon travail. Ainsi, le genre du paysage et le portrait se pr&ecirc;tent &agrave; la critique tels que le font les peintres Kent Monkman et Mathieu St-Onge dans leurs &oelig;uvres.</p>\n" +
         "" +
         "<p>Mon travail bi-dimensionnel est dirig&eacute; par l&rsquo;amour que je ressens face &agrave; la nature et &agrave; sa puret&eacute; visuelle.&nbsp; Il se forme, se transforme par mon imaginaire et mon inconscient en une vision personnelle, laquelle en prenant vie, s&rsquo;engage dans une critique du monde actuel et &agrave; venir.</p>";
+}
+
+function contactHTML() {
+
+    let email = "luc@dansero.art";
+    return "<h3>Contact</h3>\n" +
+        "<p>Vous pouvez me contacter par courriel &agrave; l&rsquo;adresse suivante : <a href=\"mailto:luc@dansero.art\">luc@dansero.art</a></p>"
+        + "<br/><form action=\"https://formspree.io/f/xnqrwwze\" method=\"POST\" id='my-form'>\n" +
+        "  <div class=\"form-group\">\n" +
+        "    <label for=\"name\">Nom</label>\n" +
+        "    <input type=\"text\" class=\"form-control\" id=\"name\" name=\"name\" placeholder=\"Votre nom\">\n" +
+        "  </div>\n" +
+        "  <div class=\"form-group\">\n" +
+        "    <label for=\"email\">Courriel</label>" +
+        "<input type='email' class='form-control' id='email' name='email' placeholder='Votre courriel'>" +
+        "  </div>\n" +
+        "  <div class=\"form-group\">\n" +
+        "    <label for=\"message\">Message</label>\n" +
+        "    <textarea class=\"form-control\" id=\"message\" name=\"message\" rows=\"3\"></textarea>\n" +
+        "  </div>\n" +
+        //Add a hidden field to prevent spam
+        "<input type='hidden' name='_gotcha' style='display:none' />" +
+        "  <button type=\"submit\" class=\"btn btn-primary\">Envoyer</button>\n" +
+        "</form>" +
+        "<p id='formspree-response'></p>";
+
+
+}
+
+//convert status to french
+/*
+    available => Disponible
+    sold => Vendu
+    reserved => R&eacute;serv&eacute;
+    unavailable => Indisponible
+    on hold => En attente
+    on loan => En pr&ecirc;t
+    on exhibition => En exposition
+    on display => En affichage
+    private sale => Vente priv&eacute;e - Me contacter
+    */
+function convertStatus(status) {
+    switch (status) {
+        case "available":
+            return "Disponible";
+        case "sold":
+            return "Vendu";
+        case "reserved":
+            return "R&eacute;serv&eacute;";
+        case "unavailable":
+            return "Indisponible";
+        case "on hold":
+            return "En attente";
+        case "on loan":
+            return "En pr&ecirc;t";
+        case "on exhibition":
+            return "En exposition";
+        case "on display":
+            return "En affichage";
+        case "private sale":
+            return "Vente priv&eacute;e - Me contacter";
+        default:
+            return "D&eacture;tail indisponible- Me contacter";
+    }
+}
+
+function replaceNewLine() {
+    var description = document.getElementById("description").value;
+    description = description.replace(/\r\n/g, "<br>");
+    document.getElementById("description").value = description;
 }

@@ -313,3 +313,17 @@
 #menu__active:checked ~ label #degree--up-1:checked ~ .menu__listings ~ .menu__arrow--top label[for="degree--up-2"] {
     display: block;
 }
+
+
+img.gallery {
+    height: 100%;
+    object-fit: cover;
+    width: auto
+}
+
+@media screen and (orientation: portrait) {
+    .menu {
+        transform: scale(0.75);
+        transform-origin: top left;
+    }
+}
