@@ -61,6 +61,7 @@ function loadGallery(images) {
 }
 
 
+
 function loadContact() {
     // Create the contact HTML string
     let contact = `
@@ -136,8 +137,11 @@ function openModal(index) {
   `;
     // Set the content element's innerHTML to the modal HTML string
     content.innerHTML = modal;
+    // Add the image's ID to the page URI as an anchor
+    window.history.pushState("", "", "#" + index);
+
     // Call the replaceNewLine function
-    replaceNewLine();
+    //replaceNewLine();
 }
 
 
@@ -403,7 +407,47 @@ function convertStatus(status) {
 }
 
 function replaceNewLine() {
-    var description = document.getElementById("description").value;
-    description = description.replace(/\r\n/g, "<br>");
-    document.getElementById("description").value = description;
+    // Get a reference to the content element
+    let content = document.getElementById("content");
+
+    // Check if the content element is null
+    if (content === null) {
+        // If the content element is null, do nothing
+        return;
+    }
+
+    // If the content element is not null, continue with the rest of the function
+    let elements = content.getElementsByTagName("*");
+    for (let i = 0; i < elements.length; i++) {
+        let element = elements[i];
+        element.innerHTML = element.innerHTML.replace(/\n/g, "<br>");
+    }
+}
+
+
+function checkURI() {
+    // Get the URI anchor
+    let anchor = window.location.hash;
+    let images = getImages();
+
+// If the anchor is not an empty string
+    if (anchor !== "") {
+        // Strip the # character from the anchor
+        anchor = anchor.slice(1);
+
+        // If the anchor is a valid number
+        if (!isNaN(anchor)) {
+            // Convert the anchor to a number
+            anchor = Number(anchor);
+
+            // If the anchor is a valid index in the images array
+            if (anchor >= 0 && anchor < images.length) {
+                // Run the openModal function with the anchor index
+                openModal(anchor);
+                // Return from the function to stop further execution
+
+            }
+        }
+    }
+
 }

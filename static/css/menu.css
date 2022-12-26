@@ -314,13 +314,6 @@
     display: block;
 }
 
-
-img.gallery {
-    height: 100%;
-    object-fit: cover;
-    width: auto
-}
-
 @media screen and (orientation: portrait) {
     .menu {
         transform: scale(0.75);

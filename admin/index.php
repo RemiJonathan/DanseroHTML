@@ -12,64 +12,6 @@
             color: #333;
         }
 
-        /*.container {
-            width: 960px;
-            margin: 0 auto;
-        }
-
-        .header {
-            background-color: #333;
-            color: #fff;
-            padding: 10px;
-        }
-
-        .content {
-            background-color: #fff;
-            padding: 10px;
-        }
-
-        !*make submit button font and bubble large and curve corners*!
-        input[type=submit] {
-            font-size: 1.5em;
-            padding: 10px;
-            border-radius: 10px;
-        }
-
-        !*make input fields large and curve corners*!
-        input[type=text], input[type=password], input[type=number] {
-            font-size: 1.5em;
-            padding: 10px;
-            border-radius: 10px;
-        }
-
-        !*make textarea large and curve corners*!
-        textarea {
-            font-size: 1.5em;
-            padding: 10px;
-            border-radius: 10px;
-        }
-
-        !*make select large and curve corners*!
-        select {
-            font-size: 1.5em;
-            padding: 10px;
-            border-radius: 10px;
-        }
-
-        !*make file input large and curve corners*!
-        input[type=file] {
-            font-size: 1.5em;
-            padding: 10px;
-            border-radius: 10px;
-        }
-
-        !*make first td text bold and right align*!
-        td:first-child {
-            font-weight: bold;
-            text-align: right;
-            font-size: 1.5em;
-        }*/
-
     </style>
 </head>
 <body>
