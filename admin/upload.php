@@ -1,49 +1,71 @@
 <?php
+
 //upload image file and edit json file to add new image
 
-//receive image file from form
-if (isset($_POST['submit'])) {
+function createThumbnail($new_file, $target_dir, $new_file_name)
+{
+    // Create a thumbnail image
+    $thumbnail_width = 100;
+    $thumbnail_height = 100;
+
+// Load the image
+    $image = imagecreatefromjpeg($new_file);
+    $original_width = imagesx($image);
+    $original_height = imagesy($image);
+
+// Calculate the thumbnail dimensions
+    $thumbnail_ratio = $thumbnail_width / $thumbnail_height;
+    $original_ratio = $original_width / $original_height;
+
+    if ($original_ratio > $thumbnail_ratio) {
+        $thumbnail_height = $thumbnail_width / $original_ratio;
+    } else {
+        $thumbnail_width = $thumbnail_height * $original_ratio;
+    }
+
+// Create the thumbnail image
+    $thumbnail = imagecreatetruecolor($thumbnail_width, $thumbnail_height);
+    imagecopyresampled($thumbnail, $image, 0, 0, 0, 0, $thumbnail_width, $thumbnail_height, $original_width, $original_height);
+
+// Save the thumbnail image
+    $thumbnail_file = $target_dir . 'thumb-' . $new_file_name;
+    imagejpeg($thumbnail, $thumbnail_file);
+
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $target_dir = "../static/media/uploads/";
     $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-    $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-    // Check if image file is a actual image or fake image
-    if (isset($_POST["submit"])) {
-        $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-        if ($check !== false) {
-            echo "File is an image - " . $check["mime"] . ".";
-        } else {
-            echo "File is not an image.";
-            $uploadOk = 0;
-        }
-    }
-    // Check if file already exists
-    if (file_exists($target_file)) {
+
+    // Check if image file is an actual image or fake image
+    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+    if ($check === false) {
+        echo "File is not an image.";
+    } // Check if file already exists
+    else if (file_exists($target_file)) {
         echo "Sorry, file already exists.";
-        $uploadOk = 0;
-    }
-    // Check file size
-    if ($_FILES["fileToUpload"]["size"] > 50000000) {
+    } // Check file size
+    else if ($_FILES["fileToUpload"]["size"] > 50000000) {
         echo "Sorry, your file is too large.";
-        $uploadOk = 0;
-    }
-    // Allow certain file formats
-    if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-        && $imageFileType != "gif") {
+    } // Allow certain file formats
+    else if ($imageFileType !== "jpg" && $imageFileType !== "png" && $imageFileType !== "jpeg" && $imageFileType !== "gif") {
         echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed!";
-        $uploadOk = 0;
-    }
-    // Check if $uploadOk is set to 0 by an error
-    if ($uploadOk == 0) {
-        echo "Sorry, your file was not uploaded.";
-        // if everything is ok, try to upload file and name it based on datetime
-    } else {
+    } // Check if there was an error uploading the file
+    else if ($_FILES["fileToUpload"]["error"] !== UPLOAD_ERR_OK) {
+        echo "Sorry, there was an error uploading your file.";
+    } // if everything is ok, try to upload file and name it based on datetime
+    else {
         //rename file to upload
         $new_file_name = date('Y-m-d-H-i-s') . '.' . $imageFileType;
         $new_file = $target_dir . $new_file_name;
 
+        //createThumbnail($_FILES["fileToUpload"]["tmp_name"], $target_dir, $new_file_name);
+        $thumbnail_file = $target_dir . 'thumb-' . $new_file_name;
+
         if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $new_file)) {
-            echo "The file " . basename($_FILES["fileToUpload"]["name"]) . " has been uploaded.";
+
+
             //edit uploads.json file to add new image
             $uploads = file_get_contents('../static/media/uploads/uploads.json');
             $uploads = json_decode($uploads, true);
@@ -54,6 +76,7 @@ if (isset($_POST['submit'])) {
                 'description' => $_POST['description'],
                 'medium' => $_POST['medium'],
                 'url' => $new_file,
+                'thumbnail' => $thumbnail_file,
                 'depiction' => $_POST['depiction'],
                 'price' => $_POST['price'],
                 'size' => $_POST['size'],
@@ -63,6 +86,10 @@ if (isset($_POST['submit'])) {
             //encode array to json and save to file
             $uploads = json_encode($uploads);
             file_put_contents('../static/media/uploads/uploads.json', $uploads);
+            //redirect to admin page
+            header('Location: ../admin/?message=The file ' . basename($_FILES["fileToUpload"]["name"]) . ' has been uploaded.');
+
+
         } else {
             echo "Sorry, there was an error uploading your file.";
         }

@@ -1,0 +1,39 @@
+body {
+    font-family: "Roboto Condensed", sans-serif;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+@media (max-width: 700px) {
+    #logo {
+        /* styles for mobile devices with viewport width up to 600px */
+        width: 260px;
+    }
+}
+
+@media (max-width: 260px) {
+    #logo {
+        /* styles for mobile devices with viewport width up to 600px */
+        width: 100%;
+    }
+}
+
+.rounded-bubble {
+    border-color: #000;
+    border-style: solid;
+    border-radius: 100px;
+}
+
+pre {
+    white-space: pre-wrap; /* Since CSS 2.1 */
+
+    font-family: "Roboto Condensed", sans-serif;
+}
+
+@media (min-width: 992px) {
+    img {
+        max-height: 80vh;
+    }
+}

@@ -1,12 +1,25 @@
+const statusMap = [
+    {status: "available", label: "Disponible", className: "available", color: "green"},
+    {status: "sold", label: "Vendu", className: "sold", color: "red"},
+    {status: "reserved", label: "Réservé", className: "reserved", color: "orange"},
+    {status: "unavailable", label: "Indisponible", className: "unavailable", color: "gray"},
+    {status: "on hold", label: "En attente", className: "on-hold", color: "yellow"},
+    {status: "on loan", label: "En prêt", className: "on-loan", color: "purple"},
+    {status: "on exhibition", label: "En exposition", className: "on-exhibition", color: "blue"},
+    {status: "on display", label: "En affichage", className: "on-display", color: "pink"},
+    {status: "private sale", label: "Vente privée - Me contacter", className: "private-sale", color: "brown"},
+    {status: "default", label: "Détail indisponible - Me contacter", className: "default", color: "black"},
+];
+
 function loadIntro(title, text, image) {
     // Create the intro HTML string
     let intro = `
     <div class="container">
-      <div class="row">
+      <!--<div class="row">
         <div class="col-md-12">
           <h1 class="text-center display-4">${title}</h1>
         </div>
-      </div>
+      </div>-->
       <div class="row">
         <div class="col-md-5 align-left">
           <img src="${image}" class="img-fluid" alt="Luc" id="intro-image">
@@ -32,11 +45,16 @@ function loadGallery(images) {
     for (let i = 0; i < images.length; i++) {
         // Log the current image to the console for debugging purposes
         console.log(images[i]);
-        // Add an image element to the imageDiv string with the current image's URL and alt text
+        // Add a div element to the imageDiv string with a placeholder background color and height
+        // Also add a data-src attribute with the current image's URL and alt text
         // Also add an onclick event that calls the openModal function and passes in the current image index
         imageDiv += `
       <div class="col-md-4">
-        <img src="${images[i].url}" class="gallery img-fluid py-md-3" alt="${images[i].depiction}" onclick="openModal(${i})">
+        <div style="background-color: #ccc; height: 0; padding-bottom: 75%; position: relative;">
+          <img src="${images[i].url}" class="gallery img-fluid py-3" alt="${images[i].depiction}" onclick="openModal(${i})" 
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; filter: blur(20px);" 
+            data-src="${images[i].url}" data-loaded="false">
+        </div>
       </div>
     `;
     }
@@ -46,11 +64,6 @@ function loadGallery(images) {
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          <h1 class="text-center display-4">Galerie</h1>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
           <div class="row">${imageDiv}</div>
         </div>
       </div>
@@ -58,19 +71,48 @@ function loadGallery(images) {
   `;
     // Call the addContent function and pass in the gallery HTML string
     addContent(gallery);
+
+    // Add an event listener to the window object that listens for the "scroll" and "resize" events
+    window.addEventListener("scroll", handleImageLoad);
+    window.addEventListener("resize", handleImageLoad);
+
+    // Call the handleImageLoad function initially to load any images that are already visible
+    handleImageLoad();
 }
 
+function handleImageLoad() {
+    // Get all of the image elements that have not been loaded yet
+    let images = document.querySelectorAll("img[data-loaded='false']");
+
+    // Loop through each image element and check if it is visible
+    for (let i = 0; i < images.length; i++) {
+        let image = images[i];
+        if (isVisible(image)) {
+            // Load the image by setting its src attribute to the value of its data-src attribute
+            image.src = image.getAttribute("data-src");
+            // Set the image's data-loaded attribute to "true" to mark it as loaded
+            image.setAttribute("data-loaded", "true");
+            // Add a load event listener to the image element that removes the blur effect when it finishes loading
+            image.addEventListener("load", function () {
+                image.style.filter = "";
+            });
+        }
+    }
+}
+
+function isVisible(element) {
+    // Get the bounding rectangle of the element
+    let rect = element.getBoundingClientRect();
+
+    // Check if any part of the element is visible in the viewport
+    return rect.top < window.innerHeight && rect.bottom >= 0 && rect.left < window.innerWidth && rect.right >= 0;
+}
 
 
 function loadContact() {
     // Create the contact HTML string
     let contact = `
     <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <h1 class="text-center display-4">Contact</h1>
-        </div>
-      </div>
       <div class="row">
         <div class="col-md-12">
           <div class="row">
@@ -98,16 +140,20 @@ function openModal(index) {
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          <h1 class="text-center display-4">${images[index].name}</h1>
+          <div class="container-fluid">
+          
+          </div>
         </div>
       </div>
       <div class="row">
-        <div class="col-md-5 align-left">
+        <div class="col-md-7 align-left" id="image_holder">
           <a href="${images[index].url}" target="_blank">
-            <img src="${images[index].url}" class="img-fluid" alt="Luc" id="intro-image">
+            <img src="${images[index].url}" class="img-fluid sticky-md-top " alt="Luc" id="intro-image">
           </a>
-          <div class="container-fluid">
-            <div class="row justify-content-around">
+          <div class="row justify-content-around py-3" id="legend">
+            <div class="col-12 text-center bold">${images[index].name}</div>
+            <div class="col-auto text-center">${images[index].year}</div>
+            <div class="col-auto text-center">${images[index].medium}</div>
               <div class="col-auto text-center">
                 ${parseFloat(images[index].price).toLocaleString('en-CA', {
         style: 'currency',
@@ -118,10 +164,9 @@ function openModal(index) {
               <div class="col-auto text-center">${images[index].size}</div>
               <div class="col-auto text-center">${convertStatus(images[index].status)}</div>
             </div>
-          </div>
         </div>
-        <div class="col-md-6 align-right align-self-start">
-          <p style="text-align: justify">${images[index].description}</p>
+        <div class="col-md-3 align-right align-self-start">
+          <p style="text-align: justify"><pre class="${document.body.className}">${images[index].description}</pre></p>
         </div>
       </div>
     </div>
@@ -137,6 +182,7 @@ function openModal(index) {
   `;
     // Set the content element's innerHTML to the modal HTML string
     content.innerHTML = modal;
+    toggleImageHolder();
     // Add the image's ID to the page URI as an anchor
     window.history.pushState("", "", "#" + index);
 
@@ -149,11 +195,6 @@ function loadDemarche() {
     // Create the demarche HTML string
     let demarche = `
     <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <h1 class="text-center display-4">D&eacute;marche</h1>
-        </div>
-      </div>
       <div class="row">
         <div class="col-md-12">
           <div class="row">
@@ -171,6 +212,7 @@ function loadDemarche() {
 
 
 function addContent(html) {
+    fadeInContent();
     // Get a reference to the content element
     let content = document.getElementById("content");
     // Set the content element's innerHTML to the HTML string passed in as an argument
@@ -234,12 +276,12 @@ function navHTML() {
         "    <input type=\"radio\" name=\"arrow--up\" id=\"degree--up-2\" />\n" +
         "    <div class=\"menu__listings\">\n" +
         "      <ul class=\"circle\">\n" +
-        navItem("user", "javascript:loadIntro('Biographie', biographyHTML(),'static/media/luc-dansereau.bb7d732cf62fa1c7fdcb.jpg')") +
+        navItem("user", "javascript:loadIntro('Biographie', biographyHTML(),'static/media/luc.jpg')") +
         navItem("moon-o", "javascript:toggleDarkMode()") +
-        navItem("cog", "#") +
-        navItem("", "#") +
-        navItem("", "#") +
-        navItem("", "#") +
+        navItem(" ", "admin/") +
+        navItem("cog", "admin/") +
+        navItem(" ", "admin/") +
+        navItem(" ", "admin/") +
         navItem("", "#") +
         navItem("envelope", "javascript:loadContact()") +
         navItem("file", "javascript:loadDemarche()") +
@@ -249,9 +291,9 @@ function navHTML() {
         "    <div class=\"menu__arrow menu__arrow--top\">\n" +
         "      <ul>\n" +
         "        <li>\n" +
-        "          <label for=\"degree--up-0\"><div class=\"arrow\"></div></label>\n" +
-        "          <label for=\"degree--up-1\"><div class=\"arrow\"></div></label>\n" +
-        "          <label for=\"degree--up-2\"><div class=\"arrow\"></div></label>\n" +
+        "          <label for=\"degree--up-0\"><div class=\"arrow arrow-light-mode\"></div></label>\n" +
+        "          <label for=\"degree--up-1\"><div class=\"arrow arrow-light-mode\" id='arrow'></div></label>\n" +
+        "          <label for=\"degree--up-2\"><div class=\"arrow arrow-light-mode\"></div></label>\n" +
         "        </li>\n" +
         "      </ul>\n" +
         "    </div>\n" +
@@ -297,10 +339,23 @@ function lorem() {
 function toggleDarkMode() {
     let body = document.body;
     let logo = document.getElementById("logo");
+    let arrow = document.getElementsByClassName("arrow");
+    let pre = document.getElementsByTagName("pre");
+
     body.classList.toggle("dark-mode");
     logo.classList.toggle("dark-mode-logo");
     body.classList.toggle("light-mode");
     logo.classList.toggle("light-mode-logo");
+
+    for (let i = 0; i < arrow.length; i++) {
+        arrow[i].classList.toggle("arrow-light-mode");
+        arrow[i].classList.toggle("arrow-dark-mode");
+    }
+
+    for (let i = 0; i < pre.length; i++) {
+        pre[i].classList.toggle("dark-mode");
+        pre[i].classList.toggle("light-mode");
+    }
 }
 
 function biographyHTML() {
@@ -345,7 +400,7 @@ function demarcheHTML() {
 function contactHTML() {
 
     let email = "luc@dansero.art";
-    return "<h3>Contact</h3>\n" +
+    return "<!--<h3>Contact</h3>-->\n" +
         "<p>Vous pouvez me contacter par courriel &agrave; l&rsquo;adresse suivante : <a href=\"mailto:luc@dansero.art\">luc@dansero.art</a></p>"
         + "<br/><form action=\"https://formspree.io/f/xnqrwwze\" method=\"POST\" id='my-form'>\n" +
         "  <div class=\"form-group\">\n" +
@@ -362,7 +417,7 @@ function contactHTML() {
         "  </div>\n" +
         //Add a hidden field to prevent spam
         "<input type='hidden' name='_gotcha' style='display:none' />" +
-        "  <button type=\"submit\" class=\"btn btn-primary\">Envoyer</button>\n" +
+        "  <button type=\"submit\" class=\"btn btn-light\">Envoyer</button>\n" +
         "</form>" +
         "<p id='formspree-response'></p>";
 
@@ -370,41 +425,13 @@ function contactHTML() {
 }
 
 //convert status to french
-/*
-    available => Disponible
-    sold => Vendu
-    reserved => R&eacute;serv&eacute;
-    unavailable => Indisponible
-    on hold => En attente
-    on loan => En pr&ecirc;t
-    on exhibition => En exposition
-    on display => En affichage
-    private sale => Vente priv&eacute;e - Me contacter
-    */
+
 function convertStatus(status) {
-    switch (status) {
-        case "available":
-            return "Disponible";
-        case "sold":
-            return "Vendu";
-        case "reserved":
-            return "R&eacute;serv&eacute;";
-        case "unavailable":
-            return "Indisponible";
-        case "on hold":
-            return "En attente";
-        case "on loan":
-            return "En pr&ecirc;t";
-        case "on exhibition":
-            return "En exposition";
-        case "on display":
-            return "En affichage";
-        case "private sale":
-            return "Vente priv&eacute;e - Me contacter";
-        default:
-            return "D&eacture;tail indisponible- Me contacter";
-    }
+    const statusObj = statusMap.find(s => s.status === status);
+    console.log(statusObj);
+    return statusObj ? statusObj.label : statusMap[statusMap.length - 1].label;
 }
+
 
 function replaceNewLine() {
     // Get a reference to the content element
@@ -449,5 +476,12 @@ function checkURI() {
             }
         }
     }
+
+}
+
+
+function toggleImageHolder() {
+    //document.getElementById('image_holder').classList.toggle("col-md-12");
+    //document.getElementById('image_holder').classList.toggle("col-md-7");
 
 }

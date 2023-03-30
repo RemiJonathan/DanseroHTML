@@ -36,5 +36,5 @@ if (isset($_POST['submit'])) {
     $uploads = json_encode($uploads);
     file_put_contents('../static/media/uploads/uploads.json', $uploads);
     //redirect to admin page
-    header('Location: index.php');
+    header('Location: ../admin');
 }

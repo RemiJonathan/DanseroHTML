@@ -19,3 +19,15 @@
     filter: invert(0%);
     transition-duration: 2s;
 }
+
+.arrow-light-mode {
+    border-right: 6.666666666666667px solid #000;
+    border-top: 6.666666666666667px solid #000;
+    transition-duration: 2s;
+}
+
+.arrow-dark-mode {
+    border-right: 6.666666666666667px solid #FFF;
+    border-top: 6.666666666666667px solid #FFF;
+    transition-duration: 2s;
+}

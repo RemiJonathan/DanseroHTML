@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta content="width=device-width, initial-scale=.8" name="viewport">
     <link href="%PUBLIC_URL%/favicon.ico" rel="icon"/>
     <link href="https://fonts.googleapis.com" rel="preconnect">
     <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;1,300&display=swap"
+          rel="stylesheet">
     <!--Add fontawesome-->
 
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
@@ -24,20 +25,20 @@
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-    <link href="/manifest.json" rel="manifest"/>
+    <link href="/static/css/main.css" rel="stylesheet">
     <link href="/static/css/menu.css" rel="stylesheet"/>
     <link href="/static/css/dark-mode.css" rel="stylesheet"/>
     <title>Dansero</title>
 </head>
 <body class="light-mode">
 <noscript>You need to enable JavaScript to run this app.</noscript>
-<div id="root">
+<div class="" id="root">
     <!--    center loading horizontal and vertical-->
     <div class="d-flex justify-content-center align-items-center" id="loading"
-         style="height: 100vh; font-family: 'Roboto';">
+         style="height: 100vh; font-family: 'Roboto Condensed';">
         Bienvenue dans l'imaginaire de Dansero
     </div>
-    <div class="container">
+    <div class="container py-5">
         <div id="content" style="opacity: 0; text-align: justify">
         </div>
     </div>
@@ -55,7 +56,7 @@
     setTimeout(function () {
         //fade in .content
         fadeInContent();
-        //loadIntro("Biographie", biographyHTML(), "static/media/luc.jpg");
+        loadIntro("Biographie", biographyHTML(), "static/media/luc.jpg");
         checkURI();
     }, 2000);
 

@@ -6,6 +6,10 @@ function getImages() {
     xhr.onload = function () {
         images = JSON.parse(this.response);
         console.log(images);
+        // filter out images with status "hidden"
+        images = images.filter(function (image) {
+            return image.status !== "hidden";
+        });
     }
     xhr.send();
     return images;
